@@ -1,0 +1,37 @@
+id = "windsurf"
+display_name_key = "client.windsurf"
+
+[[install.windows.variants]]
+name = "default"
+config_dir = "~/.codeium/windsurf"
+
+[[install.macos.variants]]
+name = "default"
+config_dir = "~/.codeium/windsurf"
+
+[[install.linux.variants]]
+name = "default"
+config_dir = "~/.codeium/windsurf"
+
+[config]
+filename = "mcp_config.json"
+syntax = "json"
+process_names = ["Windsurf.exe", "windsurf"]
+env_model = "standard"
+restart_required = false
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "mcpServers"
+transports = ["stdio", "http", "sse"]
+client_owned_fields = ["disabled"]
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"
+
+[formats.fields.http]
+url = "serverUrl"
+headers = "headers"

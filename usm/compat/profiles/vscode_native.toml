@@ -1,0 +1,38 @@
+id = "vscode"
+display_name_key = "client.vscode"
+
+[[install.windows.variants]]
+name = "vscode"
+config_dir = "%APPDATA%/Code/User"
+
+[[install.macos.variants]]
+name = "vscode"
+config_dir = "~/Library/Application Support/Code/User"
+
+[[install.linux.variants]]
+name = "vscode"
+config_dir = "~/.config/Code/User"
+
+[config]
+filename = "mcp.json"
+syntax = "jsonc"
+process_names = ["Code.exe", "code"]
+env_model = "standard"
+restart_required = false
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "servers"
+transports = ["stdio", "http", "sse"]
+client_owned_fields = ["inputs"]
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"
+
+[formats.fields.http]
+url = "url"
+headers = "headers"
+type_field = "type"

@@ -1,0 +1,38 @@
+id = "cline"
+display_name_key = "client.cline"
+
+[[install.windows.variants]]
+name = "vscode"
+config_dir = "%APPDATA%/Code/User/globalStorage/saoudrizwan.claude-dev/settings"
+
+[[install.macos.variants]]
+name = "vscode"
+config_dir = "~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings"
+
+[[install.linux.variants]]
+name = "vscode"
+config_dir = "~/.config/Code/User/globalStorage/saoudrizwan.claude-dev/settings"
+
+[config]
+filename = "cline_mcp_settings.json"
+syntax = "json"
+process_names = ["Code.exe", "code"]
+env_model = "standard"
+restart_required = false
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "mcpServers"
+transports = ["stdio", "http", "sse"]
+client_owned_fields = ["disabled", "autoApprove", "timeout"]
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"
+
+[formats.fields.http]
+url = "url"
+headers = "headers"
+type_field = "type"

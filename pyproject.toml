@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "universal-skill-manager"
+version = "0.1.0"
+description = "Universal MCP Server & AI Agent Skill Manager across Antigravity, Claude, VS Code, Cursor, Windsurf"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Universal Skill Manager Contributors" }]
+dependencies = [
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "pydantic>=2.5.0",
+    "platformdirs>=4.0.0",
+    "filelock>=3.12.0",
+    "psutil>=5.9.0",
+    "mcp>=1.2.0",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.29.0",
+]
+
+[project.optional-dependencies]
+daemon = [
+    "watchdog>=4.0.0",
+]
+secrets = [
+    "keyring>=24.0.0",
+    "cryptography>=42.0.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "httpx>=0.27.0",
+]
+all = [
+    "universal-skill-manager[daemon,secrets,dev]",
+]
+
+[project.scripts]
+usm = "usm.__main__:main"
+
+[project.entry-points."usm.adapters"]
+claude-desktop = "usm.adapters.claude_desktop:ClaudeDesktopAdapter"
+claude-code    = "usm.adapters.claude_code:ClaudeCodeAdapter"
+vscode         = "usm.adapters.vscode_native:VSCodeNativeAdapter"
+cline          = "usm.adapters.cline:ClineAdapter"
+roo-code       = "usm.adapters.roo_code:RooCodeAdapter"
+cursor         = "usm.adapters.cursor:CursorAdapter"
+windsurf       = "usm.adapters.windsurf:WindsurfAdapter"
+antigravity    = "usm.adapters.antigravity:AntigravityAdapter"
+codex          = "usm.adapters.codex:CodexAdapter"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["usm*"]
+
+[tool.setuptools.package-data]
+"usm.compat" = ["profiles/*.toml"]
+"usm.i18n" = ["locales/*.json"]
+"usm.web" = ["static/*", "static/**/*"]

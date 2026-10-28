@@ -1,0 +1,49 @@
+id = "antigravity"
+display_name_key = "client.antigravity"
+
+[[install.windows.variants]]
+name = "config"
+config_dir = "~/.gemini/config"
+
+[[install.windows.variants]]
+name = "antigravity_dir"
+config_dir = "~/.gemini/antigravity"
+
+[[install.macos.variants]]
+name = "config"
+config_dir = "~/.gemini/config"
+
+[[install.macos.variants]]
+name = "antigravity_dir"
+config_dir = "~/.gemini/antigravity"
+
+[[install.linux.variants]]
+name = "config"
+config_dir = "~/.gemini/config"
+
+[[install.linux.variants]]
+name = "antigravity_dir"
+config_dir = "~/.gemini/antigravity"
+
+[config]
+filename = "mcp_config.json"
+syntax = "json"
+process_names = ["antigravity.exe", "antigravity"]
+env_model = "standard"
+restart_required = false
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "mcpServers"
+transports = ["stdio", "http", "sse"]
+client_owned_fields = ["disabled"]
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"
+
+[formats.fields.http]
+url = "serverUrl"
+headers = "headers"

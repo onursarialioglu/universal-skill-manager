@@ -1,0 +1,42 @@
+id = "roo-code"
+display_name_key = "client.roo_code"
+
+[[install.windows.variants]]
+name = "vscode"
+config_dir = "%APPDATA%/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings"
+
+[[install.windows.variants]]
+name = "vscode_insiders"
+config_dir = "%APPDATA%/Code - Insiders/User/globalStorage/rooveterinaryinc.roo-cline/settings"
+
+[[install.macos.variants]]
+name = "vscode"
+config_dir = "~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings"
+
+[[install.linux.variants]]
+name = "vscode"
+config_dir = "~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings"
+
+[config]
+filename = "mcp_settings.json"
+syntax = "json"
+process_names = ["Code.exe", "code"]
+env_model = "standard"
+restart_required = false
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "mcpServers"
+transports = ["stdio", "http", "sse"]
+client_owned_fields = ["disabled", "alwaysAllow", "autoApprove"]
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"
+
+[formats.fields.http]
+url = "url"
+headers = "headers"
+type_field = "type"

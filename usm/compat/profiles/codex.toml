@@ -1,0 +1,38 @@
+id = "codex"
+display_name_key = "client.codex"
+
+[[install.windows.variants]]
+name = "default"
+config_dir = "~/.codex"
+
+[[install.macos.variants]]
+name = "default"
+config_dir = "~/.codex"
+
+[[install.linux.variants]]
+name = "default"
+config_dir = "~/.codex"
+
+[config]
+filename = "config.toml"
+syntax = "toml"
+process_names = ["codex.exe", "codex"]
+env_model = "standard"
+restart_required = false
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "mcp_servers"
+transports = ["stdio", "http", "sse"]
+client_owned_fields = []
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"
+
+[formats.fields.http]
+url = "url"
+headers = "headers"
+type_field = "type"

@@ -1,0 +1,38 @@
+id = "claude-code"
+display_name_key = "client.claude_code"
+
+[[install.windows.variants]]
+name = "default"
+config_dir = "~"
+
+[[install.macos.variants]]
+name = "default"
+config_dir = "~"
+
+[[install.linux.variants]]
+name = "default"
+config_dir = "~"
+
+[config]
+filename = ".claude.json"
+syntax = "json"
+process_names = ["claude.exe", "claude"]
+env_model = "standard"
+restart_required = false
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "mcpServers"
+transports = ["stdio", "http", "sse"]
+client_owned_fields = []
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"
+
+[formats.fields.http]
+url = "url"
+headers = "headers"
+type_field = "type"

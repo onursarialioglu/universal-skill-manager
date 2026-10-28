@@ -1,0 +1,37 @@
+id = "claude-desktop"
+display_name_key = "client.claude_desktop"
+
+[[install.windows.variants]]
+name = "msix"
+config_dir = "%LOCALAPPDATA%/Packages/Claude_*/LocalCache/Roaming/Claude"
+
+[[install.windows.variants]]
+name = "classic"
+config_dir = "%APPDATA%/Claude"
+
+[[install.macos.variants]]
+name = "app"
+config_dir = "~/Library/Application Support/Claude"
+
+[[install.linux.variants]]
+name = "xdg"
+config_dir = "~/.config/Claude"
+
+[config]
+filename = "claude_desktop_config.json"
+syntax = "json"
+process_names = ["Claude.exe", "Claude"]
+env_model = "gui_minimal"
+restart_required = true
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "mcpServers"
+transports = ["stdio"]
+client_owned_fields = []
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"

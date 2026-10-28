@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universal Skill Manager (USM)</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="bg-glow-bottom"></div>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="logo-area">
+      <div class="logo-icon">⚡</div>
+      <div class="logo-text">
+        <h1 id="app-title">Universal Skill Manager</h1>
+        <p id="app-subtitle">Central MCP & Agent Skill Hub</p>
+      </div>
+    </div>
+
+    <!-- Prominent Header Actions -->
+    <div class="header-actions">
+      <!-- Glow Button: + Add Skill / MCP -->
+      <button class="btn btn-add-skill" id="btn-header-add" title="Register new MCP server or Agent Skill">
+        <span class="btn-icon">➕</span>
+        <span class="btn-text">+ Add Skill / MCP</span>
+      </button>
+
+      <!-- Settings Button -->
+      <button class="btn btn-secondary" id="btn-open-settings" title="System and client settings">
+        <span class="btn-icon">⚙️</span>
+        <span class="btn-text">Settings</span>
+      </button>
+
+      <!-- Undo Button -->
+      <button class="btn btn-secondary btn-sm" id="btn-undo" title="Rollback last configuration change">
+        <span class="btn-icon">↩</span>
+        <span>Undo</span>
+      </button>
+
+      <!-- Sync All Button -->
+      <button class="btn btn-primary" id="btn-sync" title="Synchronize configurations across all clients">
+        <span class="btn-icon">↻</span>
+        <span id="sync-btn-text">Sync All</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Dashboard -->
+  <main>
+    <!-- AI Clients Grid Section -->
+    <section>
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2><span class="icon">🖥</span> <span>Connected AI Clients</span></h2>
+          <span class="badge badge-counter" id="client-summary">Loading...</span>
+        </div>
+      </div>
+      <div class="clients-grid" id="clients-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- Skills Table Section -->
+    <section>
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2><span class="icon">📦</span> <span>Registered MCP Servers & Skills</span></h2>
+          <span class="badge badge-counter" id="skills-summary">0 Skills</span>
+        </div>
+        <div class="section-actions">
+          <input type="text" class="search-input" id="skills-search" placeholder="Search skills or tools...">
+          <button class="btn btn-add-secondary" id="btn-open-add">
+            <span>➕</span>
+            <span>Add New Skill</span>
+          </button>
+        </div>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Protocol</th>
+              <th>Command / Content</th>
+              <th>Targets</th>
+              <th>Health</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="skills-tbody">
+            <!-- Rendered by app.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Transaction History Section -->
+    <section>
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2><span class="icon">🕒</span> <span>Transaction History & Automatic Backups</span></h2>
+        </div>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Tx ID</th>
+              <th>Timestamp</th>
+              <th>Status</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody">
+            <!-- Rendered by app.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add Skill Modal -->
+  <div class="modal-overlay" id="add-modal">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2><span class="icon">➕</span> <span id="modal-add-title">Register Skill or MCP Server</span></h2>
+        <button class="btn-close" id="btn-close-modal" title="Close">✕</button>
+      </div>
+
+      <!-- Skill Kind Tabs -->
+      <div class="modal-tabs">
+        <button class="tab-btn active" id="tab-btn-mcp">
+          <span>🛠️</span> <span>MCP Server (Executable Tool)</span>
+        </button>
+        <button class="tab-btn" id="tab-btn-prompt">
+          <span>🧠</span> <span>Agent Skill (Prompt / Rule)</span>
+        </button>
+      </div>
+
+      <!-- Form 1: MCP Server Form -->
+      <div id="form-mcp">
+        <div class="form-group">
+          <label>Quick Template</label>
+          <select class="form-control" id="template-select">
+            <option value="">-- Custom Server (Manual) --</option>
+            <option value="github">GitHub Server (npx)</option>
+            <option value="filesystem">Filesystem Access (npx)</option>
+            <option value="fetch">Fetch Web Scraper (uvx)</option>
+            <option value="sqlite">SQLite Database (uvx)</option>
+            <option value="memory">Knowledge Graph Memory (npx)</option>
+            <option value="brave">Brave Web Search (npx)</option>
+            <option value="postgres">PostgreSQL Database (npx)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label><span>Server ID</span> *</label>
+            <input type="text" class="form-control" id="input-id" placeholder="e.g. github">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label><span>Display Name</span></label>
+            <input type="text" class="form-control" id="input-name" placeholder="e.g. GitHub Integration">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label><span>Communication Protocol</span></label>
+            <select class="form-control" id="input-transport">
+              <option value="stdio">stdio (Standard I/O)</option>
+              <option value="sse">sse (Server-Sent Events)</option>
+              <option value="websocket">websocket</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label><span>Execution Command</span> *</label>
+            <input type="text" class="form-control" id="input-cmd" placeholder="e.g. npx or uvx">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Command Arguments (space separated)</label>
+          <input type="text" class="form-control" id="input-args" placeholder="e.g. -y @modelcontextprotocol/server-github">
+        </div>
+
+        <div class="form-group">
+          <label>Environment Variables (one KEY=VALUE per line)</label>
+          <textarea class="form-control font-mono" id="input-env" rows="2" placeholder="GITHUB_PERSONAL_ACCESS_TOKEN=ghp_..."></textarea>
+        </div>
+      </div>
+
+      <!-- Form 2: Prompt / Instruction Skill Form -->
+      <div id="form-prompt" style="display: none;">
+        <div class="form-group">
+          <label>Predefined Skill Template</label>
+          <select class="form-control" id="prompt-template-select">
+            <option value="">-- Custom Rule / Instructions --</option>
+            <option value="code_review">Senior Code Review & Security Guidelines</option>
+            <option value="architecture">Architecture Decision Record (ADR) Standard</option>
+            <option value="api_design">REST API & GraphQL Design Standards</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label><span>Skill ID</span> *</label>
+            <input type="text" class="form-control" id="input-prompt-id" placeholder="e.g. code-review-standards">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label><span>Display Name</span></label>
+            <input type="text" class="form-control" id="input-prompt-name" placeholder="e.g. Senior Code Review Guidelines">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label><span>Description</span></label>
+            <input type="text" class="form-control" id="input-prompt-desc" placeholder="e.g. Engineering standards for pull request reviews and safety checks">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label><span>Deployment Scope</span></label>
+            <select class="form-control" id="input-prompt-scope">
+              <option value="auto">Auto (Workspace & Global)</option>
+              <option value="global">Global (~/.codex/skills, ~/.gemini/config/skills)</option>
+              <option value="workspace">Workspace Only (.agents/skills)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><span>Skill Rules / Instructions (Markdown)</span> *</label>
+          <textarea class="form-control font-mono" id="input-prompt-content" rows="10" placeholder="Paste your Markdown instructions, agent guidelines, or system prompt rules here..."></textarea>
+        </div>
+      </div>
+
+      <!-- Common Target Clients Selector -->
+      <div class="form-group">
+        <label>Target AI Clients</label>
+        <div class="targets-container">
+          <label class="target-checkbox-item">
+            <input type="checkbox" id="target-all" checked>
+            <span class="target-label">All Connected Clients</span>
+          </label>
+          <div class="targets-sublist" id="targets-clients-list" style="display: none;">
+            <!-- Rendered by app.js: checkboxes for each client -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-server">
+          <span>💾</span>
+          <span>Save & Sync</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2><span class="icon">⚙️</span> <span>USM System Settings</span></h2>
+        <button class="btn-close" id="btn-close-settings" title="Close">✕</button>
+      </div>
+
+      <div class="settings-sections">
+        <!-- Section: General -->
+        <div class="settings-card">
+          <h3>General Preferences</h3>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <label>Interface Language</label>
+              <select class="form-control" id="set-language">
+                <option value="en">English (EN)</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Sync Approval Mode</label>
+              <select class="form-control" id="set-approval-mode">
+                <option value="always_ask">Always Ask for Approval (always_ask)</option>
+                <option value="ask_on_risk">Ask Only on Risk / Drift (ask_on_risk)</option>
+                <option value="auto">Fully Autonomous (auto)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Backup & Retention -->
+        <div class="settings-card">
+          <h3>Backup & Rollback</h3>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <label>Max Backups per Client</label>
+              <input type="number" class="form-control" id="set-max-backups" min="1" max="100" value="20">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Retention Period (Days)</label>
+              <input type="number" class="form-control" id="set-retention-days" min="1" max="365" value="30">
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Clients & Path Overrides -->
+        <div class="settings-card">
+          <h3>AI Clients & Configuration Paths</h3>
+          <p class="settings-hint">USM automatically detects installed client configurations. You can optionally override active configuration paths below:</p>
+          <div class="client-overrides-list" id="client-overrides-container">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-settings">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-settings">
+          <span>💾</span>
+          <span>Save Settings</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

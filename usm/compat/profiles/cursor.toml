@@ -1,0 +1,38 @@
+id = "cursor"
+display_name_key = "client.cursor"
+
+[[install.windows.variants]]
+name = "default"
+config_dir = "~/.cursor"
+
+[[install.macos.variants]]
+name = "default"
+config_dir = "~/.cursor"
+
+[[install.linux.variants]]
+name = "default"
+config_dir = "~/.cursor"
+
+[config]
+filename = "mcp.json"
+syntax = "json"
+process_names = ["Cursor.exe", "cursor"]
+env_model = "standard"
+restart_required = false
+
+[[formats]]
+version = "v1"
+default = true
+root_key = "mcpServers"
+transports = ["stdio", "http", "sse"]
+client_owned_fields = []
+
+[formats.fields.stdio]
+command = "command"
+args = "args"
+env = "env"
+
+[formats.fields.http]
+url = "url"
+headers = "headers"
+type_field = "type"
