@@ -12,7 +12,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue" alt="Python 3.10+" />
   <img src="https://img.shields.io/badge/MCP-2.x%20Standard-purple" alt="MCP 2.x" />
-  <img src="https://img.shields.io/badge/tests-41%2F41%20passing-brightgreen" alt="Tests" />
+  <img src="https://img.shields.io/badge/tests-42%2F42%20passing-brightgreen" alt="Tests" />
   <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="Platforms" />
 </p>
 
@@ -64,7 +64,7 @@ Modern AI software engineering tools use disparate configuration files, formats,
    - Export and import your entire toolset with `.usmpack` packages (`usm export` / `usm import`).
 
 8. **🔒 Safe, Deterministic, & Extensible:**
-   - Built with strict type annotations, 41 automated tests, and multi-client configuration adapters.
+   - Built with strict type annotations, 42 automated tests, and multi-client configuration adapters.
 
 ---
 
@@ -116,6 +116,8 @@ graph TD
 | **Cline** | Global Storage MCP | `.clinerules/*.md` | VS Code global storage profile |
 | **VS Code Native** | `%APPDATA%\Code\User\mcp.json` | — | Native VS Code MCP format |
 | **OpenAI Codex / ChatGPT** | `~/.codex/config.toml` | `~/.codex/skills/`, `.codex/skills/` | Native TOML + VS Code ChatGPT extension (`openai.chatgpt`) |
+| **Qwen Code CLI** | `~/.qwen/settings.json` | — | CLI coding agent with native JSON MCP (`mcpServers`) |
+| **DeepSeek Harness (DSH)** | `~/.dsh/` | — | CLI Agent Harness (`DSH_TELEMETRY_MODE=DISABLED`) |
 | **Dynamic Custom Clients (Continue.dev, Zed, etc.)** | User-defined path (`--config-path`) | User-defined (`--skills-dir`) | Dynamic TOML/JSON Adapter & 3-Way Merge |
 
 ---
@@ -139,21 +141,27 @@ chmod +x install.sh
 #### Or Manual Setup:
 ```bash
 # 1. Clone repository
-git clone https://github.com/<your-username>/universal-skill-manager.git
+git clone https://github.com/onursarialioglu/universal-skill-manager.git
 cd universal-skill-manager
 
 # 2. Create virtual environment
-python -m venv .venv
-
-# 3. Activate
 # On Windows:
-.\.venv\Scripts\activate
-# On Linux/macOS:
-source .venv/bin/activate
+python -m venv .venv
+# On Linux / macOS:
+python3 -m venv .venv
 
-# 4. Install in editable mode
-pip install -e .
+# 3. Install in editable mode
+# On Windows (PowerShell or Command Prompt):
+.\.venv\Scripts\pip install -e .
+
+# On Linux / macOS:
+./.venv/bin/pip install -e .
 ```
+
+> **Tip — Activating the Environment in your Terminal (Optional):**
+> - **Windows (PowerShell):** `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; .\.venv\Scripts\Activate.ps1`
+> - **Windows (Command Prompt):** `call .venv\Scripts\activate.bat`
+> - **Linux / macOS:** `source .venv/bin/activate`
 
 ---
 
@@ -272,8 +280,12 @@ The agent will autonomously invoke the USM MCP tools:
 ## 🧪 Running Automated Tests
 
 ```bash
-# Run complete test suite (41 tests)
-pytest -v
+# Run complete test suite (42 unit tests)
+# On Windows:
+.\.venv\Scripts\pytest -v
+
+# On Linux / macOS:
+./.venv/bin/pytest -v
 ```
 
 ---

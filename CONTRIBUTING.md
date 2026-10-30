@@ -14,27 +14,32 @@ Please maintain a respectful, constructive, and collaborative tone in all discus
 
 1. **Fork and Clone** the repository:
    ```bash
-   git clone https://github.com/<your-username>/universal-skill-manager.git
+   git clone https://github.com/onursarialioglu/universal-skill-manager.git
    cd universal-skill-manager
    ```
 
 2. **Create a Virtual Environment**:
    ```bash
-   python -m venv .venv
    # Windows:
-   .\.venv\Scripts\activate
+   python -m venv .venv
    # Linux / macOS:
-   source .venv/bin/activate
+   python3 -m venv .venv
    ```
 
 3. **Install in Editable Mode with Dev Dependencies**:
    ```bash
-   pip install -e .[all]
+   # Windows:
+   .\.venv\Scripts\pip install -e ".[all]"
+   # Linux / macOS:
+   ./.venv/bin/pip install -e ".[all]"
    ```
 
 4. **Run Test Suite**:
    ```bash
-   pytest -v
+   # Windows:
+   .\.venv\Scripts\pytest -v
+   # Linux / macOS:
+   ./.venv/bin/pytest -v
    ```
 
 ---

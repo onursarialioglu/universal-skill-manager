@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "universal-skill-manager"
-version = "0.1.0"
+version = "0.2.0"
 description = "Universal MCP Server & AI Agent Skill Manager across Antigravity, Claude, VS Code, Cursor, Windsurf"
 readme = "README.md"
 requires-python = ">=3.10"

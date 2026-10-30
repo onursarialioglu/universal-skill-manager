@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.0] - 2026-10-30
+
+### Added
+- **AI Ecosystem Discovery Scanner**: Integrated `AIScanner` engine (`usm scan`) detecting installed AI clients, runtimes (Ollama, LM Studio, Gemini Desktop), Qwen Code CLI (`~/.qwen/settings.json`), and DeepSeek Harness (`~/.dsh`).
+- **Dynamic Client Registration**: Implemented `DynamicClientAdapter` allowing users and agents to connect any custom or newly released AI client (`usm register-client`) via JSON/TOML configuration without modifying source code.
+- **Agent Scanner Tools**: Expanded USM MCP server from 7 to 9 tools (`usm_scan_clients`, `usm_register_client`) enabling autonomous discovery and client onboarding by AI agents.
+- **42 Comprehensive Automated Tests**: Added unit and end-to-end test suites for the scanner, dynamic client registration, and ecosystem adapters.
+- **Enhanced Documentation & Onboarding**: Streamlined cross-platform setup, updated repository URLs, and foolproof PowerShell / POSIX virtual environment instructions.
+
 ## [0.1.0] - 2026-10-25
 
 ### Added
