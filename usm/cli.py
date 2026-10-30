@@ -1,3 +1,4 @@
+import json
 import shlex
 import sys
 from pathlib import Path
@@ -488,6 +489,80 @@ def ui_cmd(
         webbrowser.open(url)
 
     uvicorn.run(web_app, host="127.0.0.1", port=port, log_level="warning")
+
+@app.command("scan")
+def scan_cmd(
+    auto_register: bool = typer.Option(False, "--auto-register", help="Automatically register detected unmanaged MCP-capable clients"),
+    as_json: bool = typer.Option(False, "--json", help="Output results in JSON format for scripts and agents")
+):
+    """Scan host system for installed AI applications, runtimes, and editors."""
+    svc = USMService()
+    results = svc.scan_environment(auto_register=auto_register)
+
+    if as_json:
+        console.print_json(data=[r.model_dump() for r in results])
+        return
+
+    table = Table(title="AI Client & Ecosystem Discovery", border_style="cyan")
+    table.add_column("ID", style="bold cyan")
+    table.add_column("Name")
+    table.add_column("Type")
+    table.add_column("Status")
+    table.add_column("Path / Details")
+    table.add_column("Recommendation")
+
+    for r in results:
+        status_str = "[green]Installed[/green]" if r.installed else "[dim]Not found[/dim]"
+        if r.running:
+            status_str += " [bold yellow](Running)[/bold yellow]"
+        
+        type_str = "[green]Managed[/green]" if r.managed else "[cyan]External[/cyan]"
+        path_str = r.path or "-"
+        table.add_row(r.id, r.name, type_str, status_str, path_str, r.recommendation)
+
+    console.print(table)
+    if auto_register:
+        console.print("[green]✔ Auto-registered any compatible discovered AI clients.[/green]")
+
+@app.command("register-client")
+def register_client_cmd(
+    client_id: str = typer.Argument(..., help="Unique identifier for the client (e.g. continue, zed, my-ai)"),
+    config_path: str = typer.Option(..., "--config-path", "-c", help="Path to the client configuration file"),
+    name: Optional[str] = typer.Option(None, "--name", "-n", help="Display name for the client"),
+    root_key: str = typer.Option("mcpServers", "--root-key", "-r", help="JSON/TOML root key where MCP servers reside (e.g. mcpServers, context_servers)"),
+    syntax: str = typer.Option("json", "--syntax", "-s", help="Syntax format: 'json' or 'toml'"),
+    skills_dir: Optional[str] = typer.Option(None, "--skills-dir", help="Optional directory for prompt skills or rules"),
+    as_json: bool = typer.Option(False, "--json", help="Output results in JSON format")
+):
+    """Register a new custom AI client dynamically without modifying code."""
+    svc = USMService()
+    display_name = name or client_id.title()
+    success = svc.register_client(
+        client_id=client_id,
+        name=display_name,
+        config_path=config_path,
+        root_key=root_key,
+        syntax=syntax,
+        skills_dir=skills_dir
+    )
+
+    if as_json:
+        console.print_json(data={
+            "status": "success" if success else "failed",
+            "client_id": client_id,
+            "display_name": display_name,
+            "config_path": config_path,
+            "root_key": root_key,
+            "syntax": syntax,
+        })
+        return
+
+    console.print(f"[bold green]✔ Successfully registered AI client '{client_id}' ({display_name})![/bold green]")
+    console.print(f"  [dim]Config Path: {config_path}[/dim]")
+    console.print(f"  [dim]Root Key: {root_key}[/dim]")
+    console.print(f"  [dim]Syntax: {syntax}[/dim]")
+    console.print(f"You can now target this client using: [cyan]usm sync[/cyan] or [cyan]usm add <skill> --targets {client_id}[/cyan]")
+
 
 def print_plan(plan):
     console.print(f"\n[bold]{t('cli.plan.title')} - {plan.id}[/bold]")

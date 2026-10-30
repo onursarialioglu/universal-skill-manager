@@ -12,7 +12,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue" alt="Python 3.10+" />
   <img src="https://img.shields.io/badge/MCP-2.x%20Standard-purple" alt="MCP 2.x" />
-  <img src="https://img.shields.io/badge/tests-33%2F33%20passing-brightgreen" alt="Tests" />
+  <img src="https://img.shields.io/badge/tests-40%2F40%20passing-brightgreen" alt="Tests" />
   <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="Platforms" />
 </p>
 
@@ -27,6 +27,7 @@ Modern AI software engineering tools use disparate configuration files, formats,
 - **Windsurf** uses `.windsurf/rules/*.md`.
 - **Claude Code CLI** uses `~/.claude.json` and `~/.claude/skills/`.
 - **VS Code (Roo Code / Cline / Native MCP)** uses individual extension paths and `.clinerules/`.
+- **OpenAI Codex & ChatGPT** uses `~/.codex/config.toml` and `.codex/skills/`.
 
 **Universal Skill Manager (USM)** unifies them all into a single, bulletproof management engine. Install once, configure once, and every AI agent on your computer shares the exact same capabilities.
 
@@ -40,26 +41,30 @@ Modern AI software engineering tools use disparate configuration files, formats,
    - Post-write verification ensures JSON configs remain valid and unchanged keys stay bit-for-bit intact.
    - Instant 1-command rollback with `usm undo`.
 
-2. **🤖 Autonomous Agent Native (MCP v2 Server):**
+2. **🔍 Auto-Discovery AI Scanner & Dynamic Registration:**
+   - Run `usm scan` to instantly detect installed AI assistants, runtimes (Ollama, LM Studio, Gemini Desktop), and editors across your workstation.
+   - Connect ANY newly installed or custom AI client with a single command: `usm register-client <id> --config-path <path>` without writing code.
+
+3. **🤖 Autonomous Agent Native (MCP v2 Server):**
    - USM runs as a standard **Model Context Protocol Server** (`usm mcp`).
-   - Exposes 7 tools (`usm_status`, `usm_list_skills`, `usm_add_mcp_server`, `usm_add_prompt_skill`, `usm_remove_skill`, `usm_sync_all`, `usm_undo`).
+   - Exposes 9 tools (`usm_status`, `usm_scan_clients`, `usm_register_client`, `usm_list_skills`, `usm_add_mcp_server`, `usm_add_prompt_skill`, `usm_remove_skill`, `usm_sync_all`, `usm_undo`).
    - Run `usm setup-agent` and all your agents (Antigravity, Claude, Cursor) can manage their own tools autonomously when you ask them to!
 
-3. **📝 Universal Prompt & Rule Skills:**
+4. **📝 Universal Prompt & Rule Skills:**
    - Deploy and sync Markdown instructions and guidelines across `.agents/skills`, `.claude/skills`, `.cursor/rules`, `.windsurf/rules`, and `.clinerules`.
 
-4. **🌐 Modern Local Web Dashboard:**
+5. **🌐 Modern Local Web Dashboard:**
    - Sleek dark-mode dashboard at `http://localhost:8765` (`usm ui` or `start_usm.bat`).
    - Manage servers, view diffs, run health checks, and install templates with one click.
 
-5. **⚡ Headless Scripting & CI:**
+6. **⚡ Headless Scripting & CI:**
    - All core commands support `--json` output for automated workflows and terminal agents.
 
-6. **📦 Cross-Machine Portability:**
+7. **📦 Cross-Machine Portability:**
    - Export and import your entire toolset with `.usmpack` packages (`usm export` / `usm import`).
 
-7. **🔒 Safe, Deterministic, & Extensible:**
-   - Built with strict type annotations, 33 automated tests, and multi-client configuration adapters.
+8. **🔒 Safe, Deterministic, & Extensible:**
+   - Built with strict type annotations, 40 automated tests, and multi-client configuration adapters.
 
 ---
 
@@ -111,6 +116,7 @@ graph TD
 | **Cline** | Global Storage MCP | `.clinerules/*.md` | VS Code global storage profile |
 | **VS Code Native** | `%APPDATA%\Code\User\mcp.json` | — | Native VS Code MCP format |
 | **OpenAI Codex / ChatGPT** | `~/.codex/config.toml` | `~/.codex/skills/`, `.codex/skills/` | Native TOML + VS Code ChatGPT extension (`openai.chatgpt`) |
+| **Dynamic Custom Clients (Continue.dev, Zed, etc.)** | User-defined path (`--config-path`) | User-defined (`--skills-dir`) | Dynamic TOML/JSON Adapter & 3-Way Merge |
 
 ---
 
@@ -166,6 +172,27 @@ When USM runs on a clean machine:
 ---
 
 ## 🛠️ CLI Usage Examples
+
+### AI Ecosystem Discovery & Auto-Registration
+```bash
+# Scan host for installed AI assistants, runtimes (Ollama, LM Studio), and editors
+usm scan
+
+# Scan and output machine-readable JSON for agents
+usm scan --json
+
+# Automatically connect any detected compatible AI tools
+usm scan --auto-register
+```
+
+### Register Custom AI Clients
+```bash
+# Register Continue.dev, Zed, or any new AI tool dynamically
+usm register-client continue --config-path ~/.continue/config.json --name "Continue.dev"
+
+# Target newly registered client in additions or sync
+usm add github --template github --targets continue
+```
 
 ### Client Status & Health Check
 ```bash
@@ -245,7 +272,7 @@ The agent will autonomously invoke the USM MCP tools:
 ## 🧪 Running Automated Tests
 
 ```bash
-# Run complete test suite (33 tests)
+# Run complete test suite (40 tests)
 pytest -v
 ```
 

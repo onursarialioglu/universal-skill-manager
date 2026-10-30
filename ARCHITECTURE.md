@@ -167,6 +167,7 @@ skill_manager/
 │   │   ├── cline.py
 │   │   ├── codex.py              # OpenAI Codex TOML engine
 │   │   ├── cursor.py
+│   │   ├── dynamic.py            # Dynamic custom AI client adapter
 │   │   ├── roo_code.py
 │   │   ├── vscode_native.py
 │   │   └── windsurf.py
@@ -182,6 +183,7 @@ skill_manager/
 │   │   ├── planner.py            # Diff and execution planner
 │   │   ├── portability.py        # .usmpack export/import
 │   │   ├── prompt_engine.py      # Instruction/rule skill deployer
+│   │   ├── scanner.py            # AI ecosystem discovery & auto-detection engine
 │   │   ├── service.py            # Unified application service
 │   │   ├── templates.py          # Ready-to-use MCP server templates
 │   │   └── verify.py             # Post-write syntax verifier
@@ -305,6 +307,11 @@ Each client adapter implements:
 | `cline` | Win/Mac/Linux | AppData / `.clinerules/` | JSON | `mcpServers` |
 | `roo_code` | Win/Mac/Linux | AppData / `.clinerules/` | JSON | `mcpServers` |
 | `vscode_native` | Win/Mac/Linux | `.vscode/mcp.json` | JSON | `mcpServers` |
+| `custom` | Win/Mac/Linux | User-defined path | JSON/TOML | Dynamic (`--root-key`) |
+
+### 8.3 Dynamic Client Registration & AI Ecosystem Scanner
+- **Dynamic Registration (`DynamicClientAdapter`):** Enables connecting any newly installed AI assistant, terminal agent, or local runtime (e.g. Continue.dev, Zed, LM Studio) dynamically without writing code. Settings are saved in `settings.clients` and loaded automatically by `get_all_adapters()`.
+- **Ecosystem Scanner (`AIScanner`):** Inspects the host workstation for installed AI assistants, background runtimes (Ollama, LM Studio), consumer shells (Google Gemini Desktop App), and running processes. Provides instant feedback and actionable recommendations via `usm scan` and MCP tool `usm_scan_clients`.
 
 ---
 

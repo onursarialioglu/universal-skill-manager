@@ -121,3 +121,32 @@ class USMService:
 
     def import_profile(self, package_path: Path, overwrite: bool = False) -> int:
         return PortabilityManager.import_profile(package_path, overwrite=overwrite)
+
+    def scan_environment(self, auto_register: bool = False) -> List[Any]:
+        from usm.core.scanner import AIScanner
+        if auto_register:
+            AIScanner.auto_register_detected(self.settings)
+        return AIScanner.scan(self.settings)
+
+    def register_client(
+        self,
+        client_id: str,
+        name: str,
+        config_path: str,
+        root_key: str = "mcpServers",
+        syntax: str = "json",
+        skills_dir: Optional[str] = None
+    ) -> bool:
+        from usm.settings import ClientSetting
+        normalized_id = client_id.lower().replace("_", "-")
+        self.settings.clients[normalized_id] = ClientSetting(
+            enabled=True,
+            path_override=config_path,
+            display_name=name,
+            root_key=root_key,
+            syntax=syntax,
+            skills_dir=skills_dir,
+            custom=True,
+        )
+        self.update_settings(self.settings)
+        return True

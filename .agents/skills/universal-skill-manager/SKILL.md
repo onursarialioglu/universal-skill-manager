@@ -11,6 +11,8 @@ When the user asks you to install tools, add MCP servers, or configure agent rul
 
 ### Available USM MCP Tools
 - `usm_status`: Reports AI client detection and health status.
+- `usm_scan_clients`: Scans the host environment for installed AI tools, runtimes, and editors.
+- `usm_register_client`: Dynamically registers new custom AI clients and editors.
 - `usm_list_skills`: Lists all configured MCP servers and prompt skills.
 - `usm_add_mcp_server`: Installs and binds a new MCP tool across AI clients.
 - `usm_add_prompt_skill`: Creates and synchronizes a Markdown rule or prompt skill.
@@ -20,6 +22,8 @@ When the user asks you to install tools, add MCP servers, or configure agent rul
 
 ### Headless CLI Commands (JSON)
 - `usm status --json`
+- `usm scan --json`
+- `usm register-client <id> --config-path <path> --name <name> --json`
 - `usm list --json`
 - `usm add <id> --cmd <command> --args "<arguments>" --json`
 - `usm add <id> --kind prompt --content "<markdown>" --json`

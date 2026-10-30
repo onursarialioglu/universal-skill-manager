@@ -9,6 +9,12 @@ class ClientSetting(BaseModel):
     enabled: bool = True
     path_override: Optional[str] = None
     strategy: Literal["file", "cli"] = "file"
+    display_name: Optional[str] = None
+    config_filename: Optional[str] = None
+    syntax: Literal["json", "toml"] = "json"
+    root_key: str = "mcpServers"
+    skills_dir: Optional[str] = None
+    custom: bool = False
 
 class UISettings(BaseModel):
     theme: Literal["dark", "light", "system"] = "system"

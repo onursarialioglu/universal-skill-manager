@@ -191,6 +191,54 @@ def create_mcp_server() -> MCPServer:
             return {"status": "success", "message": f"Transaction '{tx_id or 'latest'}' rolled back successfully."}
         return {"status": "error", "message": "Could not undo transaction (no backups found or transaction not found)."}
 
+    @server.tool()
+    def usm_scan_clients(auto_register: bool = False) -> Dict[str, Any]:
+        """Scan the host computer for installed AI coding clients, runtimes, and editors (Google Antigravity, Claude, Cursor, Continue.dev, LM Studio, Ollama, Zed, etc.).
+        
+        Args:
+            auto_register: Automatically register any discovered unmanaged MCP-compatible AI clients.
+        """
+        svc = get_svc()
+        results = svc.scan_environment(auto_register=auto_register)
+        return {
+            "discovered_apps": [r.model_dump() for r in results]
+        }
+
+    @server.tool()
+    def usm_register_client(
+        client_id: str,
+        name: str,
+        config_path: str,
+        root_key: str = "mcpServers",
+        syntax: str = "json",
+        skills_dir: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Dynamically register any newly installed AI client or editor with USM.
+        
+        Args:
+            client_id: Unique identifier for the client (e.g. 'continue', 'zed', 'my-ai-editor').
+            name: Human-friendly name for the client (e.g. 'Continue.dev', 'Zed Editor').
+            config_path: Path to the client's configuration file (e.g. '~/.continue/config.json').
+            root_key: Root object key for MCP servers (default: 'mcpServers').
+            syntax: Configuration syntax: 'json' or 'toml' (default: 'json').
+            skills_dir: Optional directory path where prompt/rule skills should be synchronized.
+        """
+        svc = get_svc()
+        success = svc.register_client(
+            client_id=client_id,
+            name=name,
+            config_path=config_path,
+            root_key=root_key,
+            syntax=syntax,
+            skills_dir=skills_dir
+        )
+        return {
+            "status": "success" if success else "error",
+            "message": f"Client '{client_id}' ({name}) registered successfully. It can now be targeted for skills and server sync.",
+            "client_id": client_id,
+            "config_path": config_path
+        }
+
     return server
 
 def run_mcp_server():

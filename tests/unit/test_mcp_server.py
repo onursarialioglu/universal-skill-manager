@@ -15,7 +15,9 @@ async def test_mcp_server_tools_list():
     assert "usm_remove_skill" in tool_names
     assert "usm_sync_all" in tool_names
     assert "usm_undo" in tool_names
-    assert len(tool_names) == 7
+    assert "usm_scan_clients" in tool_names
+    assert "usm_register_client" in tool_names
+    assert len(tool_names) == 9
 
 @pytest.mark.anyio
 async def test_mcp_server_add_and_list_mcp(temp_usm_home):
