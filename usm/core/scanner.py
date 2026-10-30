@@ -49,6 +49,20 @@ class AIScanner:
             "recommendation": "DeepSeek agent harness detected. Privacy notice: set DSH_TELEMETRY_MODE=DISABLED to prevent remote log export.",
         },
         {
+            "id": "qwen-code",
+            "name": "Qwen Code CLI",
+            "category": "mcp_client",
+            "mcp_capable": True,
+            "detect_paths": [
+                r"~/.qwen/settings.json",
+                r"%USERPROFILE%\.qwen\settings.json",
+            ],
+            "process_names": ["qwen.exe", "qwen", "qwen-code.exe", "qwen-code"],
+            "syntax": "json",
+            "root_key": "mcpServers",
+            "recommendation": "Qwen Code CLI agent detected. Supports native MCP. Run 'usm register-client qwen --config-path ~/.qwen/settings.json' to connect.",
+        },
+        {
             "id": "continue",
             "name": "Continue.dev",
             "category": "mcp_client",

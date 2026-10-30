@@ -89,4 +89,20 @@ def test_ai_scanner_detects_deepseek_harness(temp_usm_home, monkeypatch, tmp_pat
     assert matched[0].mcp_capable is True
     assert "deepseek" in matched[0].id.lower()
 
+def test_ai_scanner_detects_qwen_code(temp_usm_home, monkeypatch, tmp_path):
+    qwen_cfg = tmp_path / ".qwen" / "settings.json"
+    qwen_cfg.parent.mkdir(parents=True, exist_ok=True)
+    qwen_cfg.write_text('{"mcpServers": {}}', encoding="utf-8")
+    monkeypatch.setenv("USERPROFILE", str(tmp_path))
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    settings = Settings()
+    results = AIScanner.scan(settings)
+
+    matched = [r for r in results if r.id == "qwen-code"]
+    assert len(matched) == 1
+    assert matched[0].installed is True
+    assert matched[0].mcp_capable is True
+    assert "qwen" in matched[0].id.lower()
+
 
