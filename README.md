@@ -12,7 +12,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue" alt="Python 3.10+" />
   <img src="https://img.shields.io/badge/MCP-2.x%20Standard-purple" alt="MCP 2.x" />
-  <img src="https://img.shields.io/badge/tests-40%2F40%20passing-brightgreen" alt="Tests" />
+  <img src="https://img.shields.io/badge/tests-41%2F41%20passing-brightgreen" alt="Tests" />
   <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="Platforms" />
 </p>
 
@@ -64,7 +64,7 @@ Modern AI software engineering tools use disparate configuration files, formats,
    - Export and import your entire toolset with `.usmpack` packages (`usm export` / `usm import`).
 
 8. **🔒 Safe, Deterministic, & Extensible:**
-   - Built with strict type annotations, 40 automated tests, and multi-client configuration adapters.
+   - Built with strict type annotations, 41 automated tests, and multi-client configuration adapters.
 
 ---
 
@@ -272,7 +272,7 @@ The agent will autonomously invoke the USM MCP tools:
 ## 🧪 Running Automated Tests
 
 ```bash
-# Run complete test suite (40 tests)
+# Run complete test suite (41 tests)
 pytest -v
 ```
 

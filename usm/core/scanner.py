@@ -37,6 +37,18 @@ class AIScanner:
             "recommendation": "Consumer web-shell without local MCP file support. Use Google Antigravity to run Gemini models with USM.",
         },
         {
+            "id": "deepseek-harness",
+            "name": "DeepSeek Harness (DSH)",
+            "category": "mcp_client",
+            "mcp_capable": True,
+            "detect_paths": [
+                r"~/.dsh",
+                r"%USERPROFILE%\.dsh",
+            ],
+            "process_names": ["dsh.exe", "dsh"],
+            "recommendation": "DeepSeek agent harness detected. Privacy notice: set DSH_TELEMETRY_MODE=DISABLED to prevent remote log export.",
+        },
+        {
             "id": "continue",
             "name": "Continue.dev",
             "category": "mcp_client",
